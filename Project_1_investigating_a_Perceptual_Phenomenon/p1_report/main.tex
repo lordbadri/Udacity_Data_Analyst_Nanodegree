@@ -6,6 +6,7 @@
 \usepackage{fancyvrb}
 \usepackage{lipsum}
 \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage{subfig}
@@ -13,6 +14,27 @@
 \usepackage{amssymb}
 \usepackage{graphicx}%
 \setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
 \newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
 
 \newcommand{\Q}{\mathbb{Q}}
@@ -42,7 +64,7 @@ What is our independent variable? What is our dependent variable?
 
 \subsection*{Solution}
 \begin{itemize}
-  \item The independent variable in this experiment are the conditions in which the participants were tested that is the Congruent and Incongruent condition.
+  \item The independent variable in this experiment are the conditions in which the participants were tested that is the congruent and incongruent condition.
 
   \item The dependent variable in this experiment is the time taken by each participant to finish the task.
 \end{itemize}
@@ -53,20 +75,26 @@ What is an appropriate set of hypotheses for this task? What kind of statistical
 
 \subsection*{Solution}
 
-We want to see if the time taken to finish the task under Congruent conditions is significantly different compared to the Incongruent condition, thus the hypothesis best set for this task is as shown below.
-\begin{itemize}
-  \item The null hypothesis would be that the population of errors if extended to the entire population not just the sample, their is no significant difference in the times take to complete the task under the Congruent and Incongruent condition.
-  \begin{equation}
-  H_{0}:  \mu_{Congruent} = \mu_{Incongruent}
-  \end{equation}
+We want to see if the time taken to finish the task under congruent conditions is significantly different compared to the incongruent condition, thus the hypothesis best set for this task is as shown below.\\
 
-  \item  The alternate hypothesis will be that the times taken to finish the task are not equal.
-  \begin{equation}
-  H_{A}:  \mu_{Congruent} \neq \mu_{Incongruent}
-  \end{equation}
+Lets define $\mu_{Congruent}$ as the congruent condition population mean, $\mu_{Incongruent}$ as the incongruent condition population mean and $\mu_{Difference}$ as the difference between the population means under congruent and incongruent condition.
+
+\begin{itemize}
+  \item The null hypothesis ($H_0$) would be that the population of errors if extended to the entire population not just the sample, their is no significant difference in the time taken to complete the task under the congruent and incongruent condition.
+  \begin{align*}
+  H_{0}:  \mu_{Congruent} &= \mu_{Incongruent} \\
+  H_{0}:  \mu_{Difference} &= \mu_{Congruent} - \mu_{Incongruent} = 0
+  \end{align*}
+  \item  The alternate hypothesis ($H_A$) will be that the time taken to finish the tasks are not equal.
+  \begin{align*}
+   H_{A}:  \mu_{Congruent} &\neq \mu_{Incongruent} \\
+    H_{A}:  \mu_{Difference} &= \mu_{Congruent} - \mu_{Incongruent} \neq 0
+  \end{align*}
 \end{itemize}
 
-To reject or accept the null hypothesis we need to perform a dependent t-test with a $\alpha=0.05$ to be sure about our conclusion. I am choosing the two tailed t-test because I do not want to assume any direction of the t-test. In short I do not want to assume if the participants are clocking faster or slower times under the Incongruent condition. 
+To reject or accept the null hypothesis we need to perform a dependent t-test with $\alpha=0.05$ to be sure about our conclusion. I am choosing a t-test over a z-test because we have a small sample size of $n=24$, we do not know anything about the population mean from which the sample was selected from and we cannot assume that the sample was selected from a population that is normally distributed. \\
+
+To be precise a two tailed t-test is the best to perform for the sample because I do not want to assume any directionality in the t-test. In short I do not want to assume if the participants are clocking faster or slower times under the incongruent condition. 
 
 
 \section*{Question 3}
@@ -75,7 +103,7 @@ Report some descriptive statistics regarding this dataset. Include at least one 
 
 \subsection*{Solution}
 
-The dataset used for this study can be found in this \href{https://drive.google.com/file/d/0B9Yf01UaIbUgQXpYb2NhZ29yX1U/view}{link}. The sample size of the dataset is $n=24$. The table shows some statistics of the dataset. The Difference column is calculated as the difference of the data in Congruent and Incongruent conditions.
+The dataset used for this study can be found in this \href{https://drive.google.com/file/d/0B9Yf01UaIbUgQXpYb2NhZ29yX1U/view}{link}. The sample size of the dataset is $n=24$. The table shows some statistics of the dataset. The Difference column is calculated as the difference of the data in congruent and incongruent conditions.
 
 \begin{center}
  \begin{tabular}{||c c c c||} 
@@ -101,7 +129,6 @@ The dataset used for this study can be found in this \href{https://drive.google.
    \item The Sample standard deviation of the differences is $S = 4.865$.
  \end{itemize}
 
-\newpage
 
 \section*{Question 4}
 
@@ -128,9 +155,9 @@ Its always a good idea to visualize the data. To look at the distribution of the
      \label{fig:example}%
  \end{figure}
  
-From the histogram plots we can see that the Congruent and Incongruent data peak at different times. We can also clearly see that the mean of the Congruent data is smaller then the Incongruent data. The box plot clearly shows us that their are two outliers in the Incongruent data, which we can also observe in the histogram.  
+From the histogram plots we can see that the congruent and incongruent data peak at different times. We can also clearly see that the mean of the congruent data is smaller then the Incongruent data. The box plot clearly shows us that their are two outliers in the Incongruent data, which we can also observe in the histogram.  
  
- 
+\newpage
 \section*{Question 5}
 Now, perform the statistical test and report your results. What is your confidence level and your critical statistic value? Do you reject the null hypothesis or fail to reject it? Come to a conclusion in terms of the experiment task. Did the results match up with your expectations?
 
