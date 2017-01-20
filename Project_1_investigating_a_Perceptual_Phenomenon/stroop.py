@@ -8,7 +8,7 @@ Created on Thu Jan 19 14:09:18 2017
 import pandas as pd
 from astroML.plotting import hist
 import matplotlib.pyplot as plt
-$import numpy as np
+#import numpy as np
 
 df_stroop = pd.read_excel(r"D:\google_drive\Online courses\udacity\Nano_degree_data_analytics\P1\stroop.xlsx") 
 df_stroop["Difference"] = df_stroop["Congruent"] - df_stroop["Incongruent"]
