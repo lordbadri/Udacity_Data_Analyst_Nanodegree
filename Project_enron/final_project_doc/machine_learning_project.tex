@@ -4,6 +4,20 @@
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{hyperref} 
 
+\usepackage[style=verbose]{biblatex}
+
+\usepackage{filecontents}% to embed the file `myreferences.bib` in your `.tex` file
+
+\begin{filecontents}{myreferences.bib}
+@online{foo12,
+  year = {2012},
+  title = {footnote-reference-using-european-system},
+  url = {http://tex.stackexchange.com/questions/69716/footnote-reference-using-european-system},
+}
+\end{filecontents}
+
+% File is created and written to disk by the above package
+\addbibresource{myreferences.bib}
 
 
 \begin{document}
@@ -16,12 +30,12 @@
 
 \section*{Introduction}
 
-Enron Corporation was an American energy, commodities, and services company based in Houston, Texas. It was founded in 1985 as the result of a merger between Houston Natural Gas and InterNorth, both relatively small regional companies in the U.S. Before its bankruptcy on December 2, 2001, Enron employed approximately 20,000 staff and was one of the world's major electricity, natural gas, communications and pulp and paper companies, with claimed revenues of nearly \$101 billion during 2000.
-
-At the end of 2001, it was revealed that its reported financial condition was sustained by institutionalized, systematic, and creatively planned accounting fraud, known since as the Enron scandal. Enron has since become a well-known example of willful corporate fraud and corruption. The data relevant to this scandal was made public. This dataset was collected and prepared by the CALO Project (A Cognitive Assistant that Learns and Organizes). It contains data from about 150 users, mostly senior management of Enron, organized into folders.
-
+Enron Corporation was an American energy, commodities, and services company based in Houston, Texas. It was founded in 1985 as the result of a merger between Houston Natural Gas and InterNorth, both relatively small regional companies in the U.S. Before its bankruptcy on December 2, 2001, Enron employed approximately 20,000 staff and was one of the world's major electricity, natural gas, communications and pulp and paper companies, with claimed revenues of nearly \$101 billion during 2000.\footcite{https://en.wikipedia.org/wiki/Enron}
+\\
+At the end of 2001, it was revealed that its reported financial condition was sustained by institutionalized, systematic, and creatively planned accounting fraud, known since as the Enron scandal. Enron has since become a well-known example of willful corporate fraud and corruption. The data relevant to this scandal was made public. This dataset was collected and prepared by the CALO Project (A Cognitive Assistant that Learns and Organizes). It contains data from about 150 users, mostly senior management of Enron, organized into folders.\footcite{https://en.wikipedia.org/wiki/Enron}
+\\
 The goal of this project is to use predictive machine learning models correctly predict persons of interest (POI) who were individuals who were involved in this scandal, using financial compensation data and aggregate email statistics from the Enron Corpus.
-
+\printbibliography
 \newpage
 \section*{Question 1}
 
