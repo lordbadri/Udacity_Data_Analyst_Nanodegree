@@ -237,6 +237,10 @@ from sklearn.ensemble import AdaBoostClassifier
 
 # Example starting point. Try investigating other evaluation techniques!
 
+selector = SelectKBest(score_func=f_classif, k=4).fit(features,labels)
+features = selector.transform(features)
+
+
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
 
@@ -252,9 +256,6 @@ pipe.fit(features_train,labels_train)
 pred = pipe.predict(features_test)
 #pipe.score(features_test,labels_test)
 
-
-"""selector = SelectKBest(score_func=f_classif, k=7).fit(features,labels)
-features = selector.transform(features)"""
 
 """features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)"""

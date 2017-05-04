@@ -181,36 +181,8 @@ Once we have decided on the features, lets now look at different classifiers and
 We can see that the classifiers performs better with added features and MinMax scaling. MinMax scaling is required because some of the data points vary a lot and scaling them to a number from 0 to 1 helps the classifier train better. The target is to choose a classifier to get a recall and precision score of 0.3. I will be using the Gradient Boosting Classifier to train and predict the POI's in the dataset. I personally like this classifier as it does not generally overfit the training data and performs better with test data.
 \\
 \\
-Lets look at the importance of each feature in our Gradient boost classifier.
-\begin{table}[!htb]
-\centering
-\caption{Enron data Gradient boost classifier feature importance}
-\label{my-label}
-\begin{tabular}{ll}
- Features & Importance \\
- Bonus & 0.16381 \\
- Salary & 0.02161 \\
- Deferral payments & 0.04275 \\
- Deferred income &  0.0222 \\
- Exercised stock options &  0.05072 \\
- Loan advances & 0.00029 \\
- Loag term incentive & 0.03419 \\
- Restricted stock & 0.09921\\
- Total payments & 0.07979 \\
- Total stock value & 0.12066 \\
- From messages & 0.02149 \\
- From poi to person & 0.03277 \\
- From person to poi &  0.00127 \\
- Restricted stock total ratio & 0.0410 \\
- Shared receipt with poi & 0.1087 \\
- To fraction messages & 0.05168 \\
- From fraction messages & 0.00312 \\
- Bonus total ratio & 0.0466 \\
- Salaray bonus ratio & 0.03 \\
- 
-\end{tabular}
-\end{table}
-\newpage
+I have used SelectKBest with a k value of 4 found using gridsearchcv to automatically select the best features based on the importance.
+\\
 I performed a PCA transformation for the data and the performance of my classifier started to decrease hence I am not using PCA transformation.
 \\
 \\
