@@ -23,6 +23,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from scipy.stats import pointbiserialr, spearmanr
 from sklearn.cross_validation import train_test_split
 from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.pipeline import Pipeline
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
@@ -78,6 +79,7 @@ data_dict.pop("LOCKHART EUGENE E",0) # All NaNs
 my_dataset = data_dict
 
 #lets clean data a bit for feature creation and create new features
+# Cleaning here means setting the NaN values to zero and also while creating freatures we must take care not to divide over 0.
               
 for name in my_dataset.keys():
     if my_dataset[name]['salary']=='NaN':
@@ -167,7 +169,7 @@ from sklearn.naive_bayes import GaussianNB
 #clf = GaussianNB()
 
 from sklearn.linear_model import LogisticRegression
-#clf = LogisticRegression(C=10,random_state = 42)
+#clf = LogisticRegression(C=1000,class_weight ='balanced',random_state = 42,tol = 1e-4,penalty ='l1')
 #clf=LogisticRegression()
 
 from sklearn.svm import SVC
@@ -183,15 +185,16 @@ from sklearn.linear_model import SGDClassifier
 #clf = SGDClassifier(random_state=42)
 
 from sklearn.ensemble import ExtraTreesClassifier
-#clf=ExtraTreesClassifier()
+#clf=ExtraTreesClassifier(random_state=42)
 """clf = ExtraTreesClassifier(bootstrap=False, class_weight='balanced',
-           criterion='gini', max_depth=1, max_features='auto',
+           criterion='gini', max_depth=2, max_features='auto',
            max_leaf_nodes=None, min_impurity_split=1e-07,
            min_samples_leaf=1, min_samples_split=2,
            min_weight_fraction_leaf=0.0, n_estimators=5, n_jobs=1,
            oob_score=False, random_state=42, verbose=0, warm_start=False)"""
 
-
+from sklearn.tree import ExtraTreeClassifier
+#clf = ExtraTreeClassifier(random_state=42)
 
 from sklearn.ensemble import RandomForestClassifier
 #clf = RandomForestClassifier(random_state=42)
@@ -220,7 +223,7 @@ clf = GradientBoostingClassifier(criterion='friedman_mse', init=None,
 
 
 from sklearn.ensemble import AdaBoostClassifier
-#clf = AdaBoostClassifier()
+#clf=AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None, learning_rate=1, n_estimators=10, random_state=42)
 
 #clf=MLPClassifier(hidden_layer_sizes=(512, ), activation='relu', solver='adam', alpha=0.0001, batch_size='auto', learning_rate='adaptive', learning_rate_init=0.001, power_t=0.5, max_iter=2000, shuffle=True, random_state=42, tol=0.0001, verbose=False, warm_start=False, momentum=0.9, nesterovs_momentum=True, early_stopping=False, validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 #clf = MLPClassifier()
@@ -234,15 +237,27 @@ from sklearn.ensemble import AdaBoostClassifier
 
 # Example starting point. Try investigating other evaluation techniques!
 
+features_train, features_test, labels_train, labels_test = \
+    train_test_split(features, labels, test_size=0.3, random_state=42)
+
+
+#scaler = MinMaxScaler()
+#features = scaler.fit_transform(features)
+
+gradboost = clf
 scaler = MinMaxScaler()
-features = scaler.fit_transform(features)
+
+pipe = Pipeline(steps=[('scaler', scaler), ('gradboost', gradboost)])         
+pipe.fit(features_train,labels_train)
+pred = pipe.predict(features_test)
+#pipe.score(features_test,labels_test)
 
 
 """selector = SelectKBest(score_func=f_classif, k=7).fit(features,labels)
 features = selector.transform(features)"""
 
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.3, random_state=42)
+"""features_train, features_test, labels_train, labels_test = \
+    train_test_split(features, labels, test_size=0.3, random_state=42)"""
                                 
 """n_components = 4
 pca = RandomizedPCA(n_components=n_components).fit(features_train)
@@ -255,9 +270,9 @@ model = SelectFromModel(clf, prefit=True)
 features_train = model.transform(features_train)
 features_test = model.transform(features_test)"""
 
-clf = clf.fit(features_train,labels_train)
-pred = clf.predict(features_test)
-print(accuracy_score(clf.predict(features_train),labels_train))
+#clf = clf.fit(features_train,labels_train)
+#pred = clf.predict(features_test)
+print(accuracy_score(pipe.predict(features_train),labels_train))
 print(accuracy_score(pred,labels_test))
 print(precision_score(pred,labels_test))
 print(recall_score(pred,labels_test))
@@ -267,7 +282,7 @@ print(f1_score(pred,labels_test))
 ### that the version of poi_id.py that you submit can be run on its own and
 ### generates the necessary .pkl files for validating your results.
 
-dump_classifier_and_data(clf, my_dataset, features_list)
+dump_classifier_and_data(pipe, my_dataset, features_list)
 
 
 

@@ -28,7 +28,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.linear_model import SGDClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier,ExtraTreesClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.grid_search import GridSearchCV
@@ -166,6 +166,11 @@ features_list = features_list + ['res_total_stock_ratio','salary_total_ratio','b
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
 
+from sklearn.pipeline import Pipeline
+
+
+
+
 scaler = MinMaxScaler()
 features = scaler.fit_transform(features)
 
@@ -181,11 +186,29 @@ classifiers = [
     SGDClassifier(random_state=42),
     DecisionTreeClassifier(random_state=42),
     ExtraTreeClassifier(random_state=42),
+    ExtraTreesClassifier(random_state=42),
     RandomForestClassifier(random_state=42),
     AdaBoostClassifier(random_state=42),
     GradientBoostingClassifier(random_state=42),
     GaussianNB(),
     LogisticRegression(random_state=42)]
+
+#pipeline classifiers
+classifiers1 = [
+    Pipeline(steps=[('scaler', scaler), ('SGD', SGDClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Dtc', DecisionTreeClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Etct', ExtraTreeClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Etce', ExtraTreesClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Rfc', RandomForestClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Adaboost', AdaBoostClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('gradboost', GradientBoostingClassifier(random_state=42))]),
+    Pipeline(steps=[('scaler', scaler), ('Gaussiannb', GaussianNB())]),
+    Pipeline(steps=[('scaler', scaler), ('LRC', LogisticRegression(random_state=42))])]
+
+
+
+
+
 
 log_cols = ["Classifier", "f1_score"]
 #log_cols = ["Classifier", "precision_score"]
@@ -205,7 +228,9 @@ for train_index, test_index in sss.split(X, y):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
 
+    #for clf1,clf in zip(classifiers,classifiers1):
     for clf in classifiers:
+        #name = clf1.__class__.__name__
         name = clf.__class__.__name__
         clf.fit(X_train, y_train)
         train_predictions = clf.predict(X_test)
@@ -222,18 +247,18 @@ for clf in acc_dict:
 	log_entry = pd.DataFrame([[clf, acc_dict[clf]]], columns=log_cols)
 	log = log.append(log_entry)
 
-plt.xlabel('f1_score')
+plt.xlabel('f1_score',fontsize=18)
 #plt.xlabel('precision_score')
 #plt.xlabel('recall_score')
 #plt.title('Classifier Accuracy')
-
+sns.set(font_scale=2)
 sns.set_color_codes("muted")
-sns.barplot(x='f1_score', y='Classifier', data=log, color="b")
+b=sns.barplot(x='f1_score', y='Classifier', data=log, color="b")
 #sns.barplot(x='precision_score', y='Classifier', data=log, color="b")
 #sns.barplot(x='recall_score', y='Classifier', data=log, color="b")
 plt.show()
 
-#performance on test set of each parameter to see how they perform
+"""#performance on test set of each parameter to see how they perform
 X = features
 y = labels
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -352,20 +377,20 @@ plt.ylabel('f1 score')
 # plt.xlabel('parameter')
 # plt.ylabel('score')
 plt.title('Max Leaf Nodes')
-plt.grid()
+plt.grid()"""
 
 
 
 #grid search CV to hypertune parameters
 
 
-parameter_candidates = [
+"""parameter_candidates = [
   {'n_estimators': [3,5,7,10,50,100], 'max_depth': [1,2,3,4,5]},
   {'min_samples_split': [2, 3, 4, 5,10, 20], 'min_weight_fraction_leaf': [0.05,0.1,0.5], 'max_leaf_nodes': [2,3,4,5,10,20],'max_features': [2,3,4,5,6,7,8,9,10],'loss':['deviance','exponential'],'learning_rate':[.1,.3,.7,1]}]
 gr = GradientBoostingClassifier(random_state=42)
 clf = GridSearchCV(gr, parameter_candidates, n_jobs=-1, scoring = 'f1')
 clf.fit(features_train,labels_train)
-clf.best_estimator_
+clf.best_estimator_"""
 
 
 

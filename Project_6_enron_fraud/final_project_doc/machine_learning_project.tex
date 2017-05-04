@@ -112,6 +112,7 @@ salary, bonus, deferral payments, deferred income, loan advances, long term ince
 \end{tabular}
 \end{table}
 
+Summarizing after cleaning up the data and removing outliers there are 143 people with features in the dataset of which 18 people are flagged as POI's, the rest are not POI's. Looking at the completeness of the data we can see that some features contain information on the POI and some do not, for example "Director fees" containes no information on the POI flagged data points and also carry very less information on the non POI side too. I did not use this feature in training the machine learning classifier. On the other hand "Restricted stock" in complete for both classes and is a useful feature.
 
 \subsubsection*{Feature creation}
 
@@ -147,6 +148,7 @@ The new features I created are as follows :
 Finally I will be using 20 features to train and test my classifiers and they are salary, bonus, deferral payments, deferred income, loan advances, long term incentive, restricted stock, total payments, total stock value, from messages, from poi to person, from person to poi, shared receipt with poi, restricted total stock ratio, salary total ratio, bonus total ratio, from fraction messages, to fraction messages, salary bonus ratio.
 \\
 \\
+\newpage
 
 \section*{Question 3}
 What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]
@@ -171,11 +173,14 @@ Once we have decided on the features, lets now look at different classifiers and
   \caption{Performance of different classifiers on the MinMax scaled enron dataset}
 \end{figure}
 
+\begin{figure}[!htbp]
+\centering
+  \subfloat[Using a pipeline with scaling]{\includegraphics[width=1\textwidth]{pipelline.png}}
+\end{figure}
 \newpage
 We can see that the classifiers performs better with added features and MinMax scaling. MinMax scaling is required because some of the data points vary a lot and scaling them to a number from 0 to 1 helps the classifier train better. The target is to choose a classifier to get a recall and precision score of 0.3. I will be using the Gradient Boosting Classifier to train and predict the POI's in the dataset. I personally like this classifier as it does not generally overfit the training data and performs better with test data.
 \\
 \\
-
 Lets look at the importance of each feature in our Gradient boost classifier.
 \begin{table}[!htb]
 \centering
@@ -234,6 +239,25 @@ If I had used an algorithm like the Gaussian naive bayes with no tunable paramet
 \\
 If I do not hyper-tune my classifier then the performance of the classifier on a test or validation set will be poor. Its just a good way to generalize the classifier and improve its performance on data it has never seen.
 
+The best tuned parameters are as follows:
+
+\begin{table}[!htb]
+\centering
+\caption{Tuned parameter values of best performing gradient boost classifier}
+\begin{tabular}{ll}
+ Parameter & Value \\
+ Max depth & 2 \\
+ Max features & 3 \\
+ Max leaf nodes & 2 \\
+ Min samples leaf & 1 \\
+ Min samples split & 3 \\
+ Min weight fraction leaf & .05 \\
+ N estimators & 4 \\
+ Learning rate & 1 \\ 
+ 
+\end{tabular}
+\end{table}
+
 \begin{table}[!htb]
 \centering
 \caption{Performance of gradient boost classifier before and after tuning }
@@ -283,18 +307,23 @@ F1 score is defined as the following:
 \mathrm{F1\_score} = 2 \times \frac{precision \times recall}{precision + recall}
 \end{equation}
 \\
-The final performance of the classifier I chose is as follows:
+The final performance of the classifier I chose are as follows:
 \begin{table}[!htb]
 \centering
-\caption{Performance of gradient boost classifier}
+\caption{Final performances of various classifiers after tuning	}
 \begin{tabular}{lllll}
  Classifier & accuracy & f1 score & precision & recall \\
- Gradient Boosting & 0.87453 &  0.43313 & 0.54470 & 0.35950 \\ 
+ GradientBoostingClassifier & 0.87453 &  0.43313 & 0.54470 & 0.35950 \\
+ LogisticRegression & 0.79347 &  0.41613 & 0.33394 & 0.55200 \\
+ ExtraTreesClassifier & 0.73640 &  0.40684  & 0.29061 & 0.67800 \\ 
+ ExtraTreeClassifier & 0.80387 &  0.28093 & 0.30200 & 0.29108 \\
+ AdaBoostClassifier & 0.85733 &  0.27849 & 0.42754 & 0.20650 \\
+ GaussianNB & 0.79180 &  0.23996 & 0.24650 & 0.23376 \\
 \end{tabular}
 \end{table}
 \\
 \\
-This tuned classifier works well with the threshold set by the project.
+The tuned GradientBoostingClassifier \& LogisticRegression works well with the threshold set by the project, I chose to use GradientBoostingClassifier because of its higher f1 score.
 
 \newpage
 \section*{References}
