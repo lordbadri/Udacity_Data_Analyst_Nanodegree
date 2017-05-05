@@ -113,7 +113,7 @@ salary, bonus, deferral payments, deferred income, loan advances, long term ince
 \end{table}
 
 Summarizing after cleaning up the data and removing outliers there are 143 people with features in the dataset of which 18 people are flagged as POI's, the rest are not POI's. Looking at the completeness of the data we can see that some features contain information on the POI and some do not, for example "Director fees" containes no information on the POI flagged data points and also carry very less information on the non POI side too. I did not use this feature in training the machine learning classifier. On the other hand "Restricted stock" in complete for both classes and is a useful feature.
-
+\newpage
 \subsubsection*{Feature creation}
 
 Using the the completeness of features I have selected the most consistence features to create more features to feed the machine learning classifier. This kind of feature creation will help the classifier predict better because it will contain all the information from the original features it was used to create.
@@ -145,11 +145,40 @@ The new features I created are as follows :
 \mathrm{salary\_bonus\_ratio} = \frac{\mathrm{salary}}{\mathrm{bonus}}
 \end{equation}
 
-Finally I will be using 20 features to train and test my classifiers and they are salary, bonus, deferral payments, deferred income, loan advances, long term incentive, restricted stock, total payments, total stock value, from messages, from poi to person, from person to poi, shared receipt with poi, restricted total stock ratio, salary total ratio, bonus total ratio, from fraction messages, to fraction messages, salary bonus ratio.
+
+Lets look at the importance of each feature in our Gradient boost classifier.
+\begin{table}[!htb]
+\centering
+\caption{Enron data Gradient boost classifier feature importance}
+\label{my-label}
+\begin{tabular}{ll}
+ Features & Importance \\
+ Bonus & 0.16381 \\
+ Salary & 0.02161 \\
+ Deferral payments & 0.04275 \\
+ Deferred income &  0.0222 \\
+ Exercised stock options &  0.05072 \\
+ Loan advances & 0.00029 \\
+ Loag term incentive & 0.03419 \\
+ Restricted stock & 0.09921\\
+ Total payments & 0.07979 \\
+ Total stock value & 0.12066 \\
+ From messages & 0.02149 \\
+ From poi to person & 0.03277 \\
+ From person to poi &  0.00127 \\
+ Restricted stock total ratio & 0.0410 \\
+ Shared receipt with poi & 0.1087 \\
+ To fraction messages & 0.05168 \\
+ From fraction messages & 0.00312 \\
+ Bonus total ratio & 0.0466 \\
+ Salaray bonus ratio & 0.03 \\
+\end{tabular}
+\end{table}
 \\
 \\
 \newpage
-
+I have used SelectKBest with a k value of 4 found using gridsearchcv to automatically select the best features based on the importance. Finally the four features that were used to train the classifier and they are \textbf{bonus, deferred income, total payments, shared receipt with poi}.
+\newpage
 \section*{Question 3}
 What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]
 
@@ -181,12 +210,10 @@ Once we have decided on the features, lets now look at different classifiers and
 We can see that the classifiers performs better with added features and MinMax scaling. MinMax scaling is required because some of the data points vary a lot and scaling them to a number from 0 to 1 helps the classifier train better. The target is to choose a classifier to get a recall and precision score of 0.3. I will be using the Gradient Boosting Classifier to train and predict the POI's in the dataset. I personally like this classifier as it does not generally overfit the training data and performs better with test data.
 \\
 \\
-I have used SelectKBest with a k value of 4 found using gridsearchcv to automatically select the best features based on the importance.
-\\
 I performed a PCA transformation for the data and the performance of my classifier started to decrease hence I am not using PCA transformation.
 \\
 \\
-
+\newpage
 %make importance table
 \section*{Question 4}
 What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]
