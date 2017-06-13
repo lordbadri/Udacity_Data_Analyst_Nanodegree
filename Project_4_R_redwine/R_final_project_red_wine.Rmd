@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Exploratory data analysis on the red wines dataset by Badrinath Thirumalchari
 ========================================================
 
