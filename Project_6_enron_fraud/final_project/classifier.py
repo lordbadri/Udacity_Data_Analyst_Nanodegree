@@ -172,7 +172,7 @@ from sklearn.pipeline import Pipeline
 
 
 scaler = MinMaxScaler()
-features = scaler.fit_transform(features)
+#features = scaler.fit_transform(features)
 
 #scaler = StandardScaler()
 #features = scaler.fit_transform(features)
@@ -228,10 +228,10 @@ for train_index, test_index in sss.split(X, y):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
 
-    #for clf1,clf in zip(classifiers,classifiers1):
-    for clf in classifiers:
-        #name = clf1.__class__.__name__
-        name = clf.__class__.__name__
+    for clf1,clf in zip(classifiers,classifiers1):
+    #for clf in classifiers:
+        name = clf1.__class__.__name__
+        #name = clf.__class__.__name__
         clf.fit(X_train, y_train)
         train_predictions = clf.predict(X_test)
         acc = f1_score(y_test, train_predictions)
